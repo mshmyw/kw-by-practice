@@ -4,7 +4,7 @@ function component () {
   var button = document.createElement('button');
   var br = document.createElement('br');
   button.innerHTML = 'Click me and look at the console!';
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = _.join(['Hello msh', 'webpack'], ' ');
   element.appendChild(br);
   element.appendChild(button);
   // 用户点击按钮时动态加载脚本
