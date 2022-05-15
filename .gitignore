@@ -7,3 +7,4 @@ node_modules
 .schema
 *.log
 report.*.json
+.history
