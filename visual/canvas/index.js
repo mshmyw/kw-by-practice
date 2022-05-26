@@ -85,6 +85,28 @@ const createSector = () => {
   ctx.fill();
 };
 
+
+const createRadialGradient = () => {
+  const ctx = getCtx();
+  let i = 0;
+  const _createRadialGradient = () => {
+    const gradient = ctx.createRadialGradient(60, 60, 0, 60, 60, 60);
+    gradient.addColorStop(i * 0, "magenta");
+    gradient.addColorStop(i * 0.25, 'blue');
+    gradient.addColorStop(i * 0.5, 'green');
+    gradient.addColorStop(i * 0.75, 'yellow');
+    gradient.addColorStop(i * 1.0, 'HotPink');
+    
+    ctx.fillStyle = gradient;
+    i = i+0.1;
+    if(i >= 1) {
+      i = 0;
+    }
+    ctx.fillRect(0, 0, 120, 120);            
+  };
+  setInterval(_createRadialGradient, 500);
+}
+
 const main = () => {
   // 绘制多边形
   createPolygon();
@@ -94,6 +116,9 @@ const main = () => {
 
   // 绘制扇形
   createSector();
+
+  // 动态圆形渐变
+  createRadialGradient();
 
 }
 
