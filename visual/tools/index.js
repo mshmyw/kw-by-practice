@@ -46,3 +46,61 @@ window.tools.getKey = () => {
 
   return key;
 };
+
+class Arrow {
+  // 箭头中心点 x,y
+  x = 0;
+  y = 0;
+  color = '#ff0099';
+  angle = 0;
+  constructor(x = 0, y = 0, color='#ff0099', angle=0) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.angle = angle;
+  }
+
+  stroke(cxt) {
+    cxt.save();
+    cxt.translate(this.x, this.y);
+    cxt.rotate(this.angle);
+    cxt.strokeStyle = this.color;
+    cxt.beginPath();
+    cxt.moveTo(-20, -10);
+
+    cxt.lineTo(0, -10);    
+    cxt.lineTo(0, -20);
+    
+    cxt.lineTo(20, 0);
+    cxt.lineTo(0, 20);
+    
+    cxt.lineTo(0, 10);    
+    cxt.lineTo(-20, 10);
+    cxt.closePath();
+    cxt.stroke();
+    cxt.restore();
+  }
+
+  fill(cxt) {
+    cxt.save();
+    cxt.translate(this.x, this.y);
+    cxt.rotate(this.angle);
+    cxt.fillStyle = this.color;
+    cxt.beginPath();
+    cxt.moveTo(-20, -10);
+
+    cxt.lineTo(0, -10);
+    cxt.lineTo(0, -20);
+
+    cxt.lineTo(20, 0);
+    cxt.lineTo(0, 20);
+
+    cxt.lineTo(0, 10);
+    cxt.lineTo(-20, 10);
+    cxt.closePath();
+    cxt.fill();
+    cxt.restore();
+  }
+}
+
+window.Arrow = Arrow;
