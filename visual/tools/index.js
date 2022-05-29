@@ -104,3 +104,48 @@ class Arrow {
 }
 
 window.Arrow = Arrow;
+
+class Ball {
+  x;
+  y;
+  radius;
+  color;
+  scaleX;
+  scaleY;
+  rotation;
+  constructor(x = 0, y = 0, radius = 12, color = '#6699ff') {
+    // 小球中心点
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.scaleX = 1;
+    this.scaleY = 1;
+    this.rotation = 0;
+  }
+  stroke(cxt) {
+    cxt.save();
+    cxt.scale(this.scaleX, this.scaleY);
+    cxt.strokeStyle = this.color;
+    cxt.beginPath();
+    cxt.arc(this.x, this.y, this.radius, 0, (360 * Math.PI) / 180, false);
+    cxt.closePath();
+    cxt.stroke();
+    cxt.restore();
+  }
+
+  fill(cxt) {
+    cxt.save();
+    cxt.translate(this.x, this.y);
+    cxt.rotate(this.rotation);
+    cxt.scale(this.scaleX, this.scaleY);
+    cxt.fillStyle = this.color;
+    cxt.beginPath();
+    cxt.arc(0, 0, this.radius, 0, (360 * Math.PI) / 180, false);
+    cxt.closePath();
+    cxt.fill();
+    cxt.restore();
+  }
+}
+
+window.Ball = Ball;

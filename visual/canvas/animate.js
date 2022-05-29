@@ -124,13 +124,121 @@ const distanceAnimate = () => {
   frame();
 }
 
+
+const ballCircleSport = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(100, 25, 20);
+  const centerX = cnv.width/2;
+  const centerY = cnv.height/2;
+  const radius = 50;
+  let angle = 0;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width,cnv.height);
+    cxt.beginPath();
+    cxt.arc(centerX, centerY, radius, 0, 360*Math.PI/180, false);
+    cxt.closePath();
+    cxt.stroke();
+
+    ball.x = centerX + Math.cos(angle) * radius;
+    ball.y = centerY + Math.sin(angle) * radius;
+    ball.fill(cxt);
+    angle += 0.05;
+  }
+
+  frame();
+}
+
+const ballWaveX = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width/2, cnv.height/2);
+  const range = 80;
+  let angle = 0;
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    ball.x = cnv.width/2 + Math.sin(angle) * range;
+    ball.fill(cxt);
+    angle += 0.05;
+  }
+  frame();
+}
+
+const ballWaveY = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(0, cnv.height / 2);
+  const range = 40;
+  let angle = 0;
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    ball.x += 1;
+    ball.y = cnv.height / 2 + Math.sin(angle) * range;
+    ball.fill(cxt);
+    angle += 0.05;
+  };
+  frame();
+};
+
+const ballScale = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width/2, cnv.height / 2, 25);
+  const range = 0.5;
+  let angle = 0;
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    ball.scaleX = 1 + Math.sin(angle) * range;
+    ball.scaleY = 1 + Math.sin(angle) * range;
+    ball.fill(cxt);
+    angle += 0.05;
+  };
+  frame();
+};
+
+const arrowMove = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+
+  const arrow = new Arrow(cnv.width / 2, cnv.height / 2);
+  const mouse = tools.getMouse(cnv);
+  let speed = 1.5;
+  let angle = 0;
+  const drawFrame = () => {
+    requestAnimationFrame(drawFrame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    const dx = mouse.x - cnv.width / 2;
+    const dy = mouse.y - cnv.height / 2;
+    const angle = Math.atan2(dy, dx);
+    const vx = Math.cos(angle)*speed;
+    const vy = Math.sin(angle)*speed;
+    arrow.x +=vx;
+    arrow.y +=vy;
+    arrow.angle = angle;
+    arrow.fill(cxt);
+  };
+  drawFrame();
+};
+
 const main = () => {
   // getMouse();
   // getDirection();
   // moveBall();
   // ballAnimation();
-  arrowAnimate();
-  distanceAnimate();
+  // arrowAnimate();
+  // distanceAnimate();
+  // ballCircleSport();
+  // ballWaveX();
+  // ballWaveY();
+  ballScale();
+  arrowMove();
 };
 
 main();
