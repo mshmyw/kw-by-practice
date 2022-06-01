@@ -39,7 +39,7 @@ window.tools.getKey = () => {
       case 'ArrowDown':
         key.direction = 'down';
         break;
-      default: 
+      default:
         key.direction = '';
     }
   });
@@ -68,13 +68,13 @@ class Arrow {
     cxt.beginPath();
     cxt.moveTo(-20, -10);
 
-    cxt.lineTo(0, -10);    
+    cxt.lineTo(0, -10);
     cxt.lineTo(0, -20);
-    
+
     cxt.lineTo(20, 0);
     cxt.lineTo(0, 20);
-    
-    cxt.lineTo(0, 10);    
+
+    cxt.lineTo(0, 10);
     cxt.lineTo(-20, 10);
     cxt.closePath();
     cxt.stroke();
@@ -149,3 +149,8 @@ class Ball {
 }
 
 window.Ball = Ball;
+
+window.tools.getRandomColor = () => {
+  const hex = Math.floor(Math.random() * 0xffffff).toString(16);
+  return '#' + hex.padEnd(6, '0');
+};
