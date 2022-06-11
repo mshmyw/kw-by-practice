@@ -238,6 +238,38 @@ const ballsBounce = () => {
   frame();
 };
 
+// 碰撞检测
+const ballCollision = () => {
+  const cnv = document.querySelector("#canvas");
+  const cxt = cnv.getContext("2d");
+  const msg = document.querySelector("#text");
+  const ballA = new Ball(cnv.width/2, cnv.height/2, 20, tools.getRandomColor());
+  const rectA = ballA.getRect();
+  const mouse = tools.getMouse(cnv);
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    ballA.fill(cxt);
+    cxt.strokeRect(rectA.x, rectA.y, rectA.width, rectA.height);
+
+    // 定义一个位置不固定的小球
+    const ballB = new Ball(mouse.x, mouse.y, 30);
+    const rectB = ballB.getRect();
+    ballB.fill(cxt);
+    cxt.strokeRect(rectB.x, rectB.y, rectB.width, rectB.height);
+
+    if(tools.checkRect(rectA, rectB)) {
+    //   msg.innerHtml = '撞上了！';
+      console.log('撞上了！');
+    } else {
+      // msg.innerHtml = '哈哈，哎没撞！';
+      console.log('哈哈，哎没撞！');
+    }
+  }
+  frame();
+}
+
 const main = () => {
   // ballGravityMove();
   // 下落和反弹
@@ -249,7 +281,10 @@ const main = () => {
 
   // 边界反弹
   // ballBounce();
-  ballsBounce();
+  // ballsBounce();
+
+  // 碰撞检测
+  // ballCollision();
 };
 
 main();

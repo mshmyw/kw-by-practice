@@ -146,6 +146,16 @@ class Ball {
     cxt.fill();
     cxt.restore();
   }
+
+  getRect() {
+    const rect ={
+      x: this.x - this.radius,
+      y: this.y - this.radius,
+      width: this.radius *2,
+      height: this.radius * 2
+    };
+    return rect;
+  }
 }
 
 window.Ball = Ball;
@@ -153,4 +163,25 @@ window.Ball = Ball;
 window.tools.getRandomColor = () => {
   const hex = Math.floor(Math.random() * 0xffffff).toString(16);
   return '#' + hex.padEnd(6, '0');
+};
+
+// 矩形碰撞检测
+window.tools.checkRect = (rectA, rectB) => {
+  return !(
+    rectA.x + rectA.width < rectB.x ||
+    rectB.x + rectB.width < rectA.x ||
+    rectA.y + rectA.height < rectB.y ||
+    rectB.y + rectB.height < rectA.y
+  );
+}
+
+// 圆形碰撞检测
+window.tools.checkCircle = (circleA, circleB) => {
+  const dx = circleB.x - circleA.x;
+  const dy = circleB.y - circleA.y;
+  const distance = Math.sqrt(dx*dx + dy*dy);
+  if(distance < circleA.radius + circleB.radius) {
+    return true;
+  }
+  return false;
 };
