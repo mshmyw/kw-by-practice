@@ -130,9 +130,37 @@ const ballsCollision = () => {
   }
   frame();
 }
+
+const ballCatch = () => {
+  const cnv = document.querySelector("#canvas");
+  const cxt = cnv.getContext("2d");
+  const ball = new Ball(0, cnv.height/2, 20);
+  const mouse = tools.getMouse(cnv);
+  let isMouseDown = false;
+  const vx = 3;
+
+  cnv.addEventListener('mousedown', () => {
+    if(ball.checkMouse(mouse)) {
+      isMouseDown = true;
+      alert('catch you');
+    }
+  });
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    if(!isMouseDown) {
+      ball.x += vx;
+    }
+    ball.fill(cxt);
+  }
+  frame();
+}
+
 const main = () => {
   // 碰撞检测
-  ballsCollision();
+  // ballsCollision();
+  ballCatch();
 };
 
 main();

@@ -156,6 +156,14 @@ class Ball {
     };
     return rect;
   }
+
+  // 捕获（鼠标是否在圆内）
+  checkMouse(mouse) {
+    const dx = mouse.x - this.x;
+    const dy = mouse.y - this.y;
+    const distance = Math.sqrt(dx**2 + dy**2);
+    return distance < this.radius;
+  }
 }
 
 window.Ball = Ball;
@@ -185,3 +193,4 @@ window.tools.checkCircle = (circleA, circleB) => {
   }
   return false;
 };
+
