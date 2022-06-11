@@ -34,14 +34,14 @@ const ballCollision = () => {
 const ballsCollision = () => {
   const cnv = document.querySelector("#canvas");
   const cxt = cnv.getContext("2d");
-  const n = 32;
+  const n = 20;
   const balls = [];
   const randomFactor = 3;
   for(let i = 0; i < n; i++) {
     const ball = new Ball();
     ball.x = Math.random()*cnv.width;
     ball.y = Math.random() * cnv.height;
-    ball.radius = 10;
+    ball.radius = 15;
     ball.color = tools.getRandomColor();
     ball.vx = (Math.random()*2-1)*randomFactor;
     ball.vy = (Math.random() * 2 - 1) * randomFactor;
@@ -51,6 +51,15 @@ const ballsCollision = () => {
   const checkCollision = (ballA, i) => {
     for(let j = i+1; j < balls.length; j++) {
       const ballB = balls[j];
+      if(tools.checkCircle(ballB, ballA)) {
+       // TODO 碰撞就定住！
+        ballA.vx = 0;
+        ballA.vy = 0;
+        // ballB.vx = 0;
+        // ballB.vy = 0;
+        return;
+      }
+
       if(tools.checkCircle(ballB, ballA)) {
         ballA.vx = -ballA.vx;
         ballA.vy = -ballA.vy;
