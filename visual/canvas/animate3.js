@@ -157,10 +157,89 @@ const ballCatch = () => {
   frame();
 }
 
+const ballMoveCatch = () => {
+  const cnv = document.querySelector("#canvas");
+  const cxt = cnv.getContext("2d");
+  const ball = new Ball(cnv.width/2, cnv.height/2, 20);
+  const mouse = tools.getMouse(cnv);
+  let isMouseDown = false;
+  let vx = (Math.random()*2 - 1)*3;
+  let vy = (Math.random()*2-1)*3;
+  cnv.addEventListener('mousedown', ()=> {
+    const rect = ball.getRect();
+    if(ball.checkMouse(mouse)) {
+      isMouseDown = true;
+      alert('catch you!');
+    }
+  });
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0,0, cnv.width, cnv.height);
+    if(isMouseDown) {
+      return;
+    }
+    ball.x+=vx;
+    ball.y+=vy;
+    if(ball.x < ball.radius) {
+      ball.x = ball.radius;
+      vx = -vx;
+    }
+    if(ball.x > cnv.width - ball.radius) {
+      ball.x = cnv.width - ball.radius;
+      vx = -vx;
+    }
+
+    if (ball.y < ball.radius) {
+      ball.y = ball.radius;
+      vy = -vy;
+    }
+    if (ball.y > cnv.height - ball.radius) {
+      ball.y = cnv.height - ball.radius;
+      vy = -vy;
+    }
+    ball.fill(cxt);
+  }
+  frame();
+}
+
+// 拖拽物体
+const ballDrag = () => {
+  const cnv = document.querySelector("#canvas");
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width/2, cnv.height/2, 20);
+  ball.fill(cxt);
+  const mouse = tools.getMouse(cnv);
+  cnv.addEventListener('mousedown', () => {
+    const onMouseMove = () => {
+      ball.x = mouse.x;
+      ball.y = mouse.y;
+    };
+    const onMouseUp = () => {
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+
+    if(ball.checkMouse(mouse)) {
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
+
+    const frame = () => {
+      requestAnimationFrame(frame);
+      cxt.clearRect(0, 0, cnv.width, cnv.height);
+      ball.fill(cxt);
+    }
+    frame();
+  });
+}
+
 const main = () => {
   // 碰撞检测
   // ballsCollision();
-  ballCatch();
+  // ballCatch();
+  // ballMoveCatch();
+  ballDrag();
 };
 
 main();
