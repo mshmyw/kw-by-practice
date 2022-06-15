@@ -234,12 +234,153 @@ const ballDrag = () => {
   });
 }
 
+const ballThrow = () => {
+  const cnv = document.querySelector("#canvas");
+  const cxt = cnv.getContext("2d");
+  const ball = new Ball(cnv.width/2, cnv.height/2, 20);
+  ball.fill(cxt);
+  const mouse = tools.getMouse(cnv);
+  let isMouseDown = false;
+  let dx = 0, dy = 0;
+  let oldX, oldY;
+  let vx = 0, vy = 0;
+  const checkBorder = (ball) => {
+    if (ball.x < ball.radius) {
+      ball.x = ball.radius;
+    }
+    if (ball.y < ball.radius) {
+      ball.y = ball.radius;
+    }
+    if (ball.x > cnv.width - ball.radius) {
+      ball.x = cnv.width - ball.radius;
+    }
+    if (ball.y > cnv.height - ball.radius) {
+      ball.y = cnv.height - ball.radius;
+    }
+  };
+  const onMouseMove = () => {
+    ball.x = mouse.x - dx;
+    ball.y = mouse.y - dy;
+    checkBorder(ball);
+  };
+  const onMouseUp = () => {
+    isMouseDown = false;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+  cnv.addEventListener('mousedown', () =>{
+    if(ball.checkMouse(mouse)) {
+      isMouseDown = true;
+      oldX = ball.x;
+      oldY = ball.y;
+      dx = mouse.x - ball.x;
+      dy = mouse.y - ball.y;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
+  });
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+    if(!isMouseDown) {
+      ball.x += vx;
+      ball.y += vy;
+      if (ball.x < ball.radius) {
+        ball.x = ball.radius;
+        vx = -vx;
+      }
+      if (ball.y < ball.radius) {
+        ball.y = ball.radius;
+        vy = -vy;
+      }
+      if (ball.x > cnv.width - ball.radius) {
+        ball.x = cnv.width - ball.radius;
+        vx = -vx;
+      }
+      if (ball.y > cnv.height - ball.radius) {
+        ball.y = cnv.height - ball.radius;
+        vy = -vy;
+      }
+    } else {
+      vx = ball.x - oldX;
+      vy = ball.y - oldY;
+      oldX = ball.x;
+      oldY = ball.y;
+    }
+    ball.fill(cxt);
+  }
+
+  frame();
+}
+// 缓动
+const ballEaseX = () => {
+  const cnv = document.querySelector("#canvas");
+  const cxt = cnv.getContext("2d");
+  const ball = new Ball(0, cnv.height/2);
+  let targetX = cnv.width*(3/4);
+  const easing = 0.05;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    const vx = (targetX - ball.x)*easing;
+    ball.x += vx;
+    ball.fill(cxt);
+  }
+  frame();
+}
+
+const ballEase = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(0, 0);
+  const targetX = cnv.width * (3 / 4);
+  const targetY = cnv.height * (1 / 2);
+  const easing = 0.05;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    const vx = (targetX - ball.x) * easing;
+    const vy = (targetY - ball.y) * easing;
+    ball.x += vx;
+    ball.y += vy;
+    ball.fill(cxt);
+  };
+  frame();
+};
+
+const ballEaseMouse = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width/2, cnv.height/2, 15, "#ff6699");
+  const mouse = tools.getMouse(cnv);
+  const easing = 0.05;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    const vx = (mouse.x - ball.x) * easing;
+    const vy = (mouse.y - ball.y) * easing;
+    ball.x += vx;
+    ball.y += vy;
+    ball.fill(cxt);
+  };
+  frame();
+};
+
 const main = () => {
   // 碰撞检测
   // ballsCollision();
   // ballCatch();
   // ballMoveCatch();
-  ballDrag();
+  // ballDrag();
+
+  // ballThrow();
+  // ballEaseX();
+  // ballEase();
+  ballEaseMouse();
 };
 
 main();
