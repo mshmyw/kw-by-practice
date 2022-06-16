@@ -370,6 +370,33 @@ const ballEaseMouse = () => {
   frame();
 };
 
+const ballBothEase = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const bigBall = new Ball(cnv.width / 2, cnv.height / 2, 15, '#ff6699');
+  const smallBall = new Ball(cnv.width / 2, cnv.height / 2, 12, '#66ccff');
+
+  const mouse = tools.getMouse(cnv);
+  const easing = 0.05;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    const vx1 = (mouse.x - bigBall.x) * easing;
+    const vy1 = (mouse.y - bigBall.y) * easing;
+    bigBall.x += vx1;
+    bigBall.y += vy1;
+    bigBall.fill(cxt);
+
+    const vx2 = (bigBall.x - smallBall.x) * easing;
+    const vy2 = (bigBall.y - smallBall.y) * easing;
+    smallBall.x += vx2;
+    smallBall.y += vy2;
+    smallBall.fill(cxt);
+  };
+  frame();
+};
+
 const main = () => {
   // 碰撞检测
   // ballsCollision();
@@ -380,7 +407,8 @@ const main = () => {
   // ballThrow();
   // ballEaseX();
   // ballEase();
-  ballEaseMouse();
+  // ballEaseMouse();
+  ballBothEase();
 };
 
 main();
