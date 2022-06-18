@@ -397,6 +397,82 @@ const ballBothEase = () => {
   frame();
 };
 
+const ballRadius = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width / 2, cnv.height / 2, 15, '#ff6699');
+  const targetRadius = 136;
+  const easing = 0.05;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    const vRadius = (targetRadius - ball.radius) * easing;
+    ball.radius += vRadius;
+    ball.fill(cxt);
+  };
+  frame();
+};
+
+const ballBounceFraction = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(0, cnv.height / 2, 15, '#ff6699');
+  const targetX = cnv.width/2;
+  const spring = 0.02;
+  let vx = 0;
+  const friction = 0.99;
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    const ax = (targetX - ball.x) * spring;
+    vx += ax;
+    vx *= friction;
+    ball.x += vx;
+    ball.fill(cxt);
+  };
+  frame();
+};
+
+
+const ballLineMove = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width/2, cnv.height / 2, 15, '#ff6699');
+  const mouse = tools.getMouse(cnv);
+  const targetX = cnv.width / 2;
+  const spring = 0.02;
+  let vx = 0, vy = 0;
+  const friction = 0.95;
+
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    let ax = (mouse.x - ball.x) * spring;
+    let ay = (mouse.y - ball.y) * spring;
+    vx += ax;
+    vy += ay;
+    vx *= friction;
+    vy *= friction;
+
+    ball.x += vx;
+    ball.y += vy;
+    ball.fill(cxt);
+
+
+    // draw line with mouse
+    cxt.beginPath();
+    cxt.moveTo(ball.x, ball.y);
+    cxt.lineTo(mouse.x, mouse.y);
+    cxt.stroke();
+    cxt.closePath();
+  };
+  frame();
+};
+
 const main = () => {
   // 碰撞检测
   // ballsCollision();
@@ -408,7 +484,10 @@ const main = () => {
   // ballEaseX();
   // ballEase();
   // ballEaseMouse();
-  ballBothEase();
+  // ballBothEase();
+  // ballRadius();
+  // ballBounceFraction();
+  ballLineMove();
 };
 
 main();
