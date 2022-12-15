@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+  }
+  .canvas-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 600px;
+    height: 600px;
+    background-color: gray;
+  }
+
+  .canvas {
+    width: 500px;
+    height: 500px;
+    background-color: darkgray;
+  }
+  .text {
+    height: 40px;
+    font-size: 30px;
+    color: orange;
+    margin: 30px;
+  }
+
+  .wrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+  .wrap1 {
+    background: orange;
+    color: #fff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform-origin: left top;
+    transform: rotate(90deg) translate(-50%, -50%);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="wrap1">不知水平垂直宽高，但我要居中！</div>
+
+  </div>
+  <!--
+  <div id="text" class="text">0</div>
+  <div class="container">
+    <div class="canvas-container">
+      <canvas id="canvas" width="500" height="500" class="canvas"></canvas>
+    </div>
+  </div>
+  -->
+</body>
+</html>

@@ -473,6 +473,44 @@ const ballLineMove = () => {
   frame();
 };
 
+const ballLineMove2 = () => {
+  const cnv = document.querySelector('#canvas');
+  const cxt = cnv.getContext('2d');
+  const ball = new Ball(cnv.width / 2, cnv.height / 2, 15, '#ff6699');
+  const mouse = tools.getMouse(cnv);
+  const targetX = cnv.width / 2;
+  const spring = 0.02;
+  let vx = 0,
+    vy = 0;
+  const friction = 0.95;
+  const gravity = 1;
+  const frame = () => {
+    requestAnimationFrame(frame);
+    cxt.clearRect(0, 0, cnv.width, cnv.height);
+
+    // 这只是弹性动画相关而已，无关重力
+    let ax = (mouse.x - ball.x) * spring;
+    let ay = (mouse.y - ball.y) * spring;
+    vx += ax;
+    vy += ay;
+    vy += gravity;
+    vx *= friction;
+    vy *= friction;
+
+    ball.x += vx;
+    ball.y += vy;
+    ball.fill(cxt);
+
+    // draw line with mouse
+    cxt.beginPath();
+    cxt.moveTo(ball.x, ball.y);
+    cxt.lineTo(mouse.x, mouse.y);
+    cxt.stroke();
+    cxt.closePath();
+  };
+  frame();
+};
+
 const main = () => {
   // 碰撞检测
   // ballsCollision();
@@ -487,7 +525,8 @@ const main = () => {
   // ballBothEase();
   // ballRadius();
   // ballBounceFraction();
-  ballLineMove();
+  // ballLineMove();
+  ballLineMove2();
 };
 
 main();
