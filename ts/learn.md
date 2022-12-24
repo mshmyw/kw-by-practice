@@ -53,6 +53,8 @@ extends : 泛型条件 a extends b 表示 a 是b的子集 （可作为三元运�
 阻断分配行为: 中括号
 type Result<T> = [T] extends ['x'] ? string: number;
 type C = Result<'x'|'y'> // 得到结果为 number
+注意:
+extends 作为条件类型时，只支持在type中使用
 
 泛型推断 infer
 type GetIdType<T> = T extends{name: infer N} ? N : never;
