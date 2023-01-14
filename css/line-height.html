@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+  <head>
+    <style>
+      .num-flop {
+        margin-top: 100px;
+        background: yellow;
+        line-height: 68px;
+        height:68px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      .num-list {
+        overflow: hidden;
+      }
+      .num {
+        font-size: 64px;
+        display: flex;
+        align-items: flex-end;
+      }
+      .num-value {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+    .not-num {
+      font-size: 64px;
+      height: 64px;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="num-flop">
+    </div>
+  </body>
+  <script>
+    const isNumFn = (num) => num !== '' && num !== null && !isNaN(num);
+    const magicDigits = '0123456789';
+
+    const getTargetList = (dataProps) => {
+      const { num, numFontSize } = dataProps;
+      const targetNum = num + '';
+      const targetList = targetNum.split('').map((item) => {
+        const isNum = isNumFn(item);
+        const value = isNum ? +item : item;
+        return {
+          isNum,
+          value,
+          style: `transition: transform 0s ease-in-out; transform: translateY(0); font-size: ${numFontSize}px;`
+        };
+      });
+      return targetList;
+    };
+
+    const runAnimate = (props) => {
+      const { numFontSize = 64, duration = 2000 } = props;
+      const targetList = getTargetList(props);
+      for (const item of targetList) {
+        if (!item.isNum) {
+          continue;
+        }
+        item.style = `transition: transform ${duration / 1000}s ease-in-out;
+                      transform: translateY(-${(item.value * numFontSize)}px);
+                      font-size: ${numFontSize}px;`;
+      }
+      return targetList;
+    };
+    const flopFn = (props, isUpdate = false) => {
+      const magicDigits = '0123456789';
+      const digitList = magicDigits.split('');
+      const numFlopElement = document.querySelector('.num-flop');
+      const targetList = runAnimate(props);
+      for(const [index, item] of Object.entries(targetList)) {
+        let numListElement = '';
+        if(item.isNum) {
+          if(!isUpdate) {
+            numListElement = document.createElement('div');
+            numListElement.className = 'num-list';
+            numListElement.style = `line-height: ${props.numFontSize}px;height: ${props.numFontSize}px`;
+            numFlopElement.appendChild(numListElement);
+          } else {
+            numListElement = document.querySelectorAll('.num-list')[index];
+          }
+          for(const num of digitList) {
+            if(!isUpdate) {
+              const numElement = document.createElement('div');
+              numElement.className = 'num';
+              numElement.style = `height: ${props.numFontSize}px;${item.style}`;
+              numElement.innerHTML = `<div class="num-value">${num}</div>`;
+              numListElement.appendChild(numElement);
+            } else {
+              const numElement = numListElement?.querySelectorAll('.num')[num];
+              if(numElement) {
+                numElement.style = `height: ${props.numFontSize}px;${item.style}`;
+                numElement.innerHTML = `<div class="num-value">${num}</div>`;
+              }
+            }
+          }
+        } else {
+            if(!isUpdate) {
+              const notNumElement = document.createElement('div');
+              notNumElement.className = 'not-num';
+              notNumElement.style = `line-height: ${props.numFontSize}px;height: ${props.numFontSize}px`;
+              notNumElement.innerText=item.value;
+              numFlopElement.appendChild(notNumElement);
+            } else {
+              if(numListElement) {
+                const notNumElement = numListElement?.querySelectorAll('.num')[index];
+                notNumElement.innerText=item.value;
+              }
+            }
+        }
+      }
+    };
+    const props = {numFontSize:68, num: 19456.23};
+    flopFn(props);
+    setInterval(() => {
+      props.num = props.num + 19;
+      console.log("props", props.num);
+      flopFn(props, true);
+    }, 3000);
+  </script>
+</html>

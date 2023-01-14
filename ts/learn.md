@@ -1,4 +1,5 @@
-# 字符串模版类型
+# ts 类型
+## 字符串模版类型
 exp:
 foo.on("nameChanged", () => {});
 类型：
@@ -11,7 +12,7 @@ type Listenable<T> = {
 };
 declare function watch<T>(obj: T): T & Listenable<T>;
 ```
-# 函数重载
+## 函数重载
 interface User{
   name: string;
 }
@@ -23,11 +24,11 @@ function saveUser(userOrId: User | number, idChecker: () => boolean): User {
 
 };
 
-# 接口
+## 接口
 可以描述结构，也可以约束类的实现（implements)
 已经声明的接口可在其他地方再次声明（扩展性，开放性），不过还是更推荐用extends扩展
 type 只是类型的别名，而interface是描述的是一种结构的类型
-# 泛型
+## 泛型
 定义的时候不指定类型，使用的时候才具象化到具体类型
 interface Foo {name: string;}
 interface Foo<T> {name: T}
@@ -64,12 +65,12 @@ type B = GetIdType<{name: boolean}> // boolean 因为泛型参数匹配上了。
 type Recur<T> {
   readonly [key in keyof T]: Recur<T[key]>;
 }
-# 装饰器
+## 装饰器
 装饰器就是一种包装，将核心内容和可插拔部分分离
 它就是个语法糖，本质还是一个普通函数
 调用顺序： 类的非静态成员、静态成员，类本身的装饰器
 
-# 反射
+## 反射
 更多学习资源： https://jkchao.github.io/typescript-book-chinese/tips/metadata.html#%E5%9F%BA%E7%A1%80
 
 动态操作自身内容的一种技术
