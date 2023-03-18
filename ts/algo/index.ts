@@ -53,8 +53,9 @@
     }
 
 // const test = [1,2]
-const test = {'a': '123', b: [1,2]}
-
+// const test = {'a': '123', b: [1,2]}
+const test = {name:'gjf',age:{age:18},a:/\d/,b:function(){},c:undefined}
+// TODO: 当前实现对正则和日期仍有问题  https://juejin.cn/post/6844903762788614152
 const result = deepCopy(test)
 
 console.log("result ", result)
