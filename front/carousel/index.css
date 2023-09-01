@@ -1,0 +1,34 @@
+.carousel-demo {
+    margin-top: 200px;
+  }
+    .carousel-viewport {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+    }
+
+    .slide {
+      width: 100%;
+      /* height: 100%; */
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background-color: #ddd;
+      transform: translateY(0);
+      transition: transform 0.5s;
+    }
+
